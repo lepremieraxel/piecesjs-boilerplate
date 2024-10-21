@@ -1,4 +1,5 @@
 import loadAll from '/assets/js/globals/loadComponents'
+import pageTransition from '/assets/js/globals/transition'
 
 const route = (event) => {
   event = event || window.event
@@ -7,11 +8,12 @@ const route = (event) => {
   const href = event.target.href
   const currentPath = window.location.pathname
 
-  const targetPath = new URL(href).pathname
-
-  if (targetPath !== currentPath) {
-    window.history.pushState({}, "", href)
-    handleLocation()
+  if (href && href !== currentPath) {
+    const targetPath = new URL(href).pathname
+    if (targetPath !== currentPath) {
+      window.history.pushState({}, "", href)
+      handleLocation()
+    }
   }
 }
 
@@ -25,7 +27,10 @@ const handleLocation = async () => {
   const path = window.location.pathname
   const route = routes[path] || routes[404]
   const html = await fetch(route).then((data) => data.text())
-  document.getElementById('page').innerHTML = html
+  // document.startViewTransition(() => {
+  //   document.getElementById('page').innerHTML = html
+  // })
+  pageTransition(html, path)
   loadAll()
 }
 
