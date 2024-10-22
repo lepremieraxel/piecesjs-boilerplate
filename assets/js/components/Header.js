@@ -11,14 +11,8 @@ class Header extends Piece {
     return `
     <header>
       <nav>
-        <ul>
-          <li>
-            <a href="/" onclick="route()">Home</a>
-          </li>
-          <li>
-            <a href="/page2" onclick="route()">Page 2</a>
-          </li>
-        </ul>
+        <a href="/" onclick="route()">Home</a>
+        <a href="/page2" onclick="route()">Page 2</a>
       </nav>
     </header>
     `

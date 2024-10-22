@@ -1,1 +1,1 @@
-import.meta.glob('../../css/globals/*.css')
+import.meta.glob('../../css/globals/*.css', { eager: true })
