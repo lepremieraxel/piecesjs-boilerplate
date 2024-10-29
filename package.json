@@ -6,8 +6,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@sanity/image-url": "^1.0.2",
     "autoprefixer": "^10.4.20",
     "gsap": "^3.12.5",
+    "lenis": "^1.1.14",
     "piecesjs": "^0.2.2",
     "postcss": "^8.4.47"
   },

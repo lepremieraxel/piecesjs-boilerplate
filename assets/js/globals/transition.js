@@ -1,4 +1,5 @@
 import gsap from "gsap"
+import loadAll from './loadComponents'
 
 let previousPage = window.location.pathname
 const pageLoaderElement = document.querySelector('.c-page-loader')
@@ -9,14 +10,15 @@ const isFirstVisit = () => {
 }
 
 const displayContent = (data) => {
-  document.getElementById('page').innerHTML = data
-
+  document.querySelector('.page-container').innerHTML = data
+  loadAll()
+  animateOnLoad()
+  document.dispatchEvent(new Event('contentLoaded'));
 }
 
 const pageTransition = (data, targetPage) => {
   if (!document.startViewTransition) {
     displayContent(data)
-    animateOnLoad()
     pageLoaderElement.parentNode.removeChild(pageLoaderElement)
     pageTransitionElement.parentNode.removeChild(pageTransitionElement)
     return
@@ -56,7 +58,6 @@ const firstVisitTransition = (data, currentPage) => {
             duration: 0.5,
             onComplete: () => {
               pageLoaderElement.parentNode.removeChild(pageLoaderElement)
-              animateOnLoad()
             }
           })
         }
@@ -112,14 +113,12 @@ const startPageTransition = (data, currentPage, targetPage) => {
       duration: 0.5,
       onComplete: () => {
         displayContent(data)
-
         tl.to(pageTransitionElement, {
           ...transitionIn,
           pointerEvents: 'none',
           zIndex: -1,
           duration: 0.5,
           onComplete: () => {
-            animateOnLoad()
             tl.to(pageTransitionElement, resetAnim)
           }
         })
@@ -129,12 +128,14 @@ const startPageTransition = (data, currentPage, targetPage) => {
 }
 
 const animateOnLoad = () => {
-  gsap.from('.animate-on-load', {
-    opacity: 0,
-    y: 50,
-    stagger: 0.2,
-    duration: 0.8,
-  })
+  if (document.querySelector('.animate-on-load')) {
+    gsap.from('.animate-on-load', {
+      opacity: 0,
+      y: 50,
+      stagger: 0.2,
+      duration: 0.8,
+    })
+  }
 }
 
 export default pageTransition
